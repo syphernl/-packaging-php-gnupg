@@ -41,7 +41,7 @@ fpm --verbose -s dir -t deb \
 --maintainer "$PKG_MAINTAINER" \
 --vendor "$PKG_VENDOR" \
 --version "${APP_VERSION:-1.0}" \
---iteration "${APP_ITERATION}" \
+--iteration "${ITERATION_PREFIX}_${APP_ITERATION}" \
 --depends "php${PHP_VERSION}-common" \
 --after-install /build/scripts/post-install.sh \
 --before-remove /build/scripts/pre-remove.sh \
