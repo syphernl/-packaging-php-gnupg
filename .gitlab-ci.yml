@@ -1,0 +1,29 @@
+stages:
+  - package
+
+services:
+  - docker:dind
+
+package:
+  variables:
+    DOCKER_DRIVER: overlay
+    UBUNTU_DIST: trusty
+    BUILDER_IMAGE: "registry.gitlab.com/syphernl/docker-builder-trusty:latest"
+    BUILD_CMDS: "cd /build; ./prepare.sh; ./update.sh && ./build.sh && chown 1000:1000 packages -R"
+
+  stage: package
+  image: docker:git
+
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+  script:
+    - docker run --rm --env UBUNTU_DIST="${UBUNTU_DIST}" -v ${CI_PROJECT_DIR}:/build -t ${BUILDER_IMAGE} bash -x -c "${BUILD_CMDS}"
+  artifacts:
+    paths:
+    - packages/*.deb
+  only:
+    - master
+
+  cache:
+    paths:
+    - iteration*
