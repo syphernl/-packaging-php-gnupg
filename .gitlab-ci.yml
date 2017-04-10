@@ -7,8 +7,8 @@ services:
 package:
   variables:
     DOCKER_DRIVER: overlay
-    UBUNTU_DIST: trusty
-    BUILDER_IMAGE: "registry.gitlab.com/syphernl/docker-builder-trusty:latest"
+    UBUNTU_DIST: xenial
+    BUILDER_IMAGE: "registry.gitlab.com/syphernl/docker-builder-xenial:latest"
     BUILD_CMDS: "cd /build; ./prepare.sh; ./update.sh && ./build.sh && chown 1000:1000 packages -R"
 
   stage: package
